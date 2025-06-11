@@ -13,8 +13,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  //console.log('🚨 ValidationPipe ativado!');
+
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.enableCors();
 
   // Configuração do Swagger
   const config = new DocumentBuilder()
