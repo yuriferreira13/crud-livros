@@ -8,12 +8,16 @@ import {
   Body,
 } from '@nestjs/common';
 import { BookService } from './book.service';
+import { CreateBookDto } from './dto/book.dto';
+import { ApiTags, ApiBody } from '@nestjs/swagger';
 
+@ApiTags('Livros')
 @Controller('books')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()
+  @ApiBody({ type: CreateBookDto })
   async createBook(
     @Body()
     body: {
@@ -42,6 +46,7 @@ export class BookController {
   }
 
   @Patch(':id/read-status')
+  @ApiBody({ schema: { example: { isRead: true } } })
   async updateReadStatus(
     @Param('id') id: number,
     @Body() body: { isRead: boolean }) {
