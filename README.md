@@ -3,7 +3,7 @@
 
  Aplicação simples de cadastro de livros
 
-![image](https://github.com/user-attachments/assets/d8d41a25-6464-46be-9c5b-9990ae03d632)
+![image](https://github.com/user-attachments/assets/49e1b040-01f6-44ee-97ef-5cc116d2a7b7)
 
 🔹 Pontos importantes:
 - Módulo book/: Contém toda a lógica relacionada à gestão de livros.
