@@ -3,6 +3,18 @@
 
  Aplicação simples de cadastro de livros
 
+![image](https://github.com/user-attachments/assets/d8d41a25-6464-46be-9c5b-9990ae03d632)
+
+🔹 Pontos importantes:
+- Módulo book/: Contém toda a lógica relacionada à gestão de livros.
+- book.dto.ts: Define as regras de validação dos dados.
+- book.service.ts: Implementa regras de negócio como criação, atualização e remoção de livros.
+- book.controller.ts: Define os endpoints da API (GET, POST, PATCH, DELETE).
+- app.module.ts: Módulo central que agrupa todos os outros módulos e configurações.
+- test/: Contém testes de integração (e2e) para garantir o funcionamento da API.
+- main.ts: Arquivo principal onde o NestJS inicializa a aplicação.
+
+
 ## Instalação do projeto
 
 ```bash
@@ -21,8 +33,19 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+## Testes
 
-## Testes de Endpoints
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
+## Endpoints
 
 ```bash
 # Você pode testar as rotas com o swagger em:
