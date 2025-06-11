@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Body,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/book.dto';
@@ -17,16 +19,14 @@ export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   @ApiBody({ type: CreateBookDto })
   async createBook(
     @Body()
-    body: {
-      title: string;
-      author: string;
-      publishedYear: number;
-      isRead: boolean;
-    },
+    body: CreateBookDto,
   ) {
+    //console.log('Body recebido:', body); // Debug
+
     return await this.bookService.createBook(
       body.title,
       body.author,
@@ -49,7 +49,8 @@ export class BookController {
   @ApiBody({ schema: { example: { isRead: true } } })
   async updateReadStatus(
     @Param('id') id: number,
-    @Body() body: { isRead: boolean }) {
+    @Body() body: { isRead: boolean },
+  ) {
     return await this.bookService.updateReadStatus(id, body.isRead);
   }
 

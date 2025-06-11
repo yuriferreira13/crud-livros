@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Book } from './entities/book.entity';
@@ -22,6 +26,7 @@ export class BookService {
       publishedYear,
       isRead,
     });
+    //console.log('Dados antes de salvar:', { title, author, publishedYear, isRead }); // Debug
     return await this.bookRepository.save(book);
   }
 
@@ -30,12 +35,25 @@ export class BookService {
   }
 
   async findById(id: number) {
+    if (!id || isNaN(Number(id))) {
+      throw new BadRequestException('ID inválido');
+    }
+
     const book = await this.bookRepository.findOne({ where: { id } });
     if (!book) throw new NotFoundException(`Livro com ID ${id} não encontrado`);
     return book;
   }
 
   async updateReadStatus(id: number, isRead: boolean) {
+    if (!id || isNaN(Number(id))) {
+      throw new BadRequestException('ID inválido');
+    }
+    if (typeof isRead !== 'boolean') {
+      throw new BadRequestException(
+        'O valor de "isRead" deve ser um booleano (true ou false)',
+      );
+    }
+
     const book = await this.bookRepository.findOne({ where: { id } });
     if (!book) throw new NotFoundException(`Livro com ID ${id} não encontrado`);
 
@@ -44,6 +62,10 @@ export class BookService {
   }
 
   async deleteBook(id: number) {
+    if (!id || isNaN(Number(id))) {
+      throw new BadRequestException('ID inválido');
+    }
+
     const result = await this.bookRepository.delete(id);
     if (result.affected === 0)
       throw new NotFoundException(`Livro com ID ${id} não encontrado`);
