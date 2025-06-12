@@ -30,6 +30,17 @@ export class BookService {
     return await this.bookRepository.save(book);
   }
 
+  async updateBook(id: number, updatedFields: Partial<Book>): Promise<Book> {
+    const book = await this.bookRepository.findOne({ where: { id } });
+
+    if (!book) {
+      throw new NotFoundException('Livro não encontrado');
+    }
+
+    Object.assign(book, updatedFields);
+    return await this.bookRepository.save(book);
+  }
+
   async findAll() {
     return await this.bookRepository.find();
   }

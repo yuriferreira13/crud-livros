@@ -8,9 +8,10 @@ import {
   Body,
   UsePipes,
   ValidationPipe,
+  NotFoundException,
 } from '@nestjs/common';
 import { BookService } from './book.service';
-import { CreateBookDto } from './dto/book.dto';
+import { CreateBookDto, UpdateBookDto } from './dto/book.dto';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
 
 @ApiTags('Livros')
@@ -25,14 +26,30 @@ export class BookController {
     @Body()
     body: CreateBookDto,
   ) {
-    //console.log('Body recebido:', body); // Debug
+    try {
+      return await this.bookService.createBook(
+        body.title,
+        body.author,
+        body.publishedYear,
+        body.isRead,
+      );
+    } catch (error) {
+      throw new NotFoundException('Erro ao criar livro');
+    }
+  }
 
-    return await this.bookService.createBook(
-      body.title,
-      body.author,
-      body.publishedYear,
-      body.isRead,
-    );
+  @Patch(':id')
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  @ApiBody({ type: UpdateBookDto })
+  async updateBook(
+    @Param('id') id: number,
+    @Body() updatedFields: UpdateBookDto,
+  ) {
+    try {
+      return await this.bookService.updateBook(id, updatedFields);
+    } catch (error) {
+      throw new NotFoundException('Erro ao atualizar livro');
+    }
   }
 
   @Get()
