@@ -65,12 +65,20 @@ $ PATCH http://localhost:3000/books/1/read-status
 {
  "isRead": false
 }
+$ PATCH http://localhost:3000/books/1
+{
+  "title": "O Senhor dos Anéis 2",
+  "author": "J.R.R. Tolkien",
+  "publishedYear": 1955,
+  "isRead": false
+}
 $ GET http://localhost:3000/books/1
 $ DELETE http://localhost:3000/books/1
 
 # Usando curl no terminal
 $ curl -X POST http://localhost:3000/books -H "Content-Type: application/json" -d '{"title": "O Senhor dos Anéis", "author": "J.R.R. Tolkien", "publishedYear": 1954, "isRead": false}'
 $ curl -X GET http://localhost:3000/books
+$ curl -X PATCH http://localhost:3000/books/1 -H "Content-Type: application/json" -d '{"title": "O Senhor dos Anéis 2", "author": "J.R.R. Tolkien", "publishedYear": 1955, "isRead": false}'
 $ curl -X PATCH http://localhost:3000/books/1/read-status -H "Content-Type: application/json" -d '{"isRead": true}'
 $ curl -X GET http://localhost:3000/books/1
 $ curl -X DELETE http://localhost:3000/books/1
